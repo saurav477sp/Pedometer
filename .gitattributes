@@ -1,0 +1,18 @@
+# Exclude platform-specific directories
+android/* linguist-vendored
+ios/* linguist-vendored
+windows/* linguist-vendored
+linux/* linguist-vendored
+macos/* linguist-vendored
+web/* linguist-vendored
+
+# Exclude generated files
+*.g.dart linguist-generated
+*.freezed.dart linguist-generated
+*.gr.dart linguist-generated
+
+# Exclude build/lock files
+pubspec.lock linguist-vendored
+Podfile.lock linguist-vendored
+*.xml linguist-vendored
+*.json linguist-vendored
