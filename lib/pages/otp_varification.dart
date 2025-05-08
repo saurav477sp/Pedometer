@@ -6,8 +6,8 @@ import 'package:pedometer/services/otp_generator.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
 import 'package:pedometer/widgets/input/otp_inputfield.dart';
-import 'package:pedometer/widgets/text/body_big.dart';
-import 'package:pedometer/widgets/text/body_small.dart';
+import 'package:pedometer/widgets/text/body_text_big.dart';
+import 'package:pedometer/widgets/text/body_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class OtpVarification extends StatefulWidget {
@@ -79,9 +79,9 @@ class _OtpVarificationState extends State<OtpVarification> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const BodyBig(text: 'OTP Varification'),
+                    const BodyTextBig(text: 'OTP Varification'),
                     const SizedBox(height: 15,),
-                    const BodySmall(
+                    const BodyTextSmall(
                       text:
                           'Enter the varification code we just sent to your email address.',
                       fontWeight: FontWeight.w300,
@@ -94,8 +94,6 @@ class _OtpVarificationState extends State<OtpVarification> {
                     const SizedBox(height: 20,),
                     SubmitButton(
                       text: 'Varify',
-                      color: Colors.white,
-                      fontColor: Colors.black,
                       onClick: () => verifyOTP(),
                     ),
                   ],

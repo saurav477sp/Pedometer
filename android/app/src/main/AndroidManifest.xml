@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- <user-permission android:name="android.permission.VIBRATE"/> -->
+    <!-- <user-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <user-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <user-permission android:name="android.permission.WAKE_LOCK"/>
+    <user-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <user-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:label="pedometer"
         android:name="${applicationName}"

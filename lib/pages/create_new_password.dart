@@ -6,8 +6,8 @@ import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
 import 'package:pedometer/widgets/custom_snackbar.dart';
 import 'package:pedometer/widgets/input/password_field.dart';
-import 'package:pedometer/widgets/text/body_big.dart';
-import 'package:pedometer/widgets/text/body_small.dart';
+import 'package:pedometer/widgets/text/body_text_big.dart';
+import 'package:pedometer/widgets/text/body_text_small.dart';
 
 class CreateNewPassword extends StatefulWidget {
   final String email;
@@ -68,11 +68,11 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const BodyBig(text: 'Create new Password'),
+                    const BodyTextBig(text: 'Create new Password'),
                     const SizedBox(
                       height: 15,
                     ),
-                    const BodySmall(
+                    const BodyTextSmall(
                       text:
                           'Yout new password must be unique from the previously used.',
                       fontWeight: FontWeight.w300,
@@ -94,8 +94,6 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     ),
                     SubmitButton(
                       text: 'Varify',
-                      color: Colors.white,
-                      fontColor: Colors.black,
                       onClick: inputValidate,
                     ),
                   ],

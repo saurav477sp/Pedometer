@@ -7,17 +7,22 @@ import 'package:pedometer/pages/home.dart';
 import 'package:pedometer/pages/login.dart';
 import 'package:pedometer/widgets/custom_snackbar.dart';
 
-class Authentication {
+class FirebaseHelper {
   final auth = FirebaseAuth.instance;
 
-  Future<bool> signUpwithEmailandPassword(
-      {required String email,
-      required String password,
-      required String userName}) async {
+  Future<bool> signUpwithEmailandPassword({
+    required String email,
+    required String password,
+    required String userName,
+  }) async {
     try {
       final auth = FirebaseAuth.instance;
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
+
+      log(userCredential.toString());
 
       await storeUserData(
         uid: userCredential.user!.uid,
@@ -41,8 +46,9 @@ class Authentication {
     required String email,
   }) async {
     try {
-      DatabaseReference databaseReference =
-          FirebaseDatabase.instance.ref('user');
+      DatabaseReference databaseReference = FirebaseDatabase.instance.ref(
+        'user',
+      );
 
       await databaseReference.child(uid).set({
         'userName': userName,
@@ -56,7 +62,11 @@ class Authentication {
   Future<void> signinUser(String email, String password) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
+
+      log(userCredential.toString());
 
       if (userCredential.user != null) {
         CustomSnackbar.showSnackbar('user', 'user loged in');
@@ -80,13 +90,11 @@ class Authentication {
             snapshot.value as Map<dynamic, dynamic>;
         List<String> emails = [];
 
-        userdata.forEach(
-          (key, value) {
-            if (value is Map && value.containsKey('email')) {
-              emails.add(value['email']);
-            }
-          },
-        );
+        userdata.forEach((key, value) {
+          if (value is Map && value.containsKey('email')) {
+            emails.add(value['email']);
+          }
+        });
 
         log(emails.toString());
       }
@@ -99,7 +107,9 @@ class Authentication {
     try {
       await fetchEmail(email);
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: newPassword);
+        email: email,
+        password: newPassword,
+      );
       User? user = userCredential.user;
       if (user != null) {
         await user.updatePassword(newPassword);
@@ -117,7 +127,8 @@ class Authentication {
   Future<bool> isEmailRegistered(String email) async {
     try {
       log(email);
-      var signInMethods = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email.trim());
+      var signInMethods = await FirebaseAuth.instance
+          .fetchSignInMethodsForEmail(email.trim());
       log(signInMethods.toString());
       return signInMethods.isNotEmpty;
     } on FirebaseException catch (e) {

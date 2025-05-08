@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:pedometer/services/firebase/authentication.dart';
+import 'package:pedometer/helper/firebase_helper.dart.dart';
 import 'package:pedometer/widgets/bottom/custom_bottom_navigation_bar%20.dart';
 
 class Home extends StatefulWidget {
@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Authentication authentication = Authentication();
+  FirebaseHelper authentication = FirebaseHelper();
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
   bool isLogedin = true;

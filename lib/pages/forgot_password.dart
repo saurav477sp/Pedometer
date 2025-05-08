@@ -8,8 +8,8 @@ import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
 import 'package:pedometer/widgets/custom_snackbar.dart';
 import 'package:pedometer/widgets/input/custom_textfield.dart';
-import 'package:pedometer/widgets/text/body_big.dart';
-import 'package:pedometer/widgets/text/body_small.dart';
+import 'package:pedometer/widgets/text/body_text_big.dart';
+import 'package:pedometer/widgets/text/body_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -74,11 +74,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const BodyBig(text: 'forgot Password?'),
+                  const BodyTextBig(text: 'forgot Password?'),
                   const SizedBox(
                     height: 25,
                   ),
-                  const BodySmall(
+                  const BodyTextSmall(
                     text:
                         'Don\'t worry! It occures. Please enter the email address linked with your account.',
                     fontWeight: FontWeight.w300,
@@ -88,15 +88,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   CustomTextfield(
                     textEditingController: _emailController,
-                    hintText: 'email',
+                    hintText: 'Email',
                   ),
                   const SizedBox(
                     height: 25,
                   ),
                   SubmitButton(
                       text: 'Send Code',
-                      color: Colors.white,
-                      fontColor: Colors.black,
                       onClick: () => otpGenerate()),
                 ],
               ),

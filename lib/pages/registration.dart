@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/pages/home.dart';
 import 'package:pedometer/pages/login.dart';
-import 'package:pedometer/services/firebase/authentication.dart';
+import 'package:pedometer/helper/firebase_helper.dart.dart';
 import 'package:pedometer/services/input_varification.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
-import 'package:pedometer/widgets/custom_circularprogressindicator.dart';
+import 'package:pedometer/widgets/circle_loading.dart';
 import 'package:pedometer/widgets/custom_snackbar.dart';
 import 'package:pedometer/widgets/input/custom_textfield.dart';
 import 'package:pedometer/widgets/input/password_field.dart';
 import 'package:pedometer/widgets/logo.dart';
-import 'package:pedometer/widgets/text/body_big.dart';
+import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class Registration extends StatefulWidget {
@@ -31,14 +31,14 @@ class _RegistrationState extends State<Registration> {
   RxBool isLoading = false.obs;
   late InputVarification inputVarification;
   late Size size;
-  late Authentication authentication;
+  late FirebaseHelper authentication;
 
   @override
   void initState() {
     super.initState();
     inputVarification = InputVarification();
     size = Get.size;
-    authentication = Authentication();
+    authentication = FirebaseHelper();
   }
 
   Future<void> inputValidate() async {
@@ -125,7 +125,7 @@ class _RegistrationState extends State<Registration> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const BodyBig(
+                      const BodyTextBig(
                         text: 'Hello! Register to get started',
                         fontSize: 27,
                       ),
@@ -158,8 +158,6 @@ class _RegistrationState extends State<Registration> {
                       ),
                       SubmitButton(
                         text: 'Submit',
-                        color: Colors.white,
-                        fontColor: Colors.black,
                         onClick: () => inputValidate(),
                       ),
                       Container(
@@ -186,7 +184,7 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
               ),
-              if (isLoading.value) const CustomCircularProgressIndicator(),
+              if (isLoading.value) const CircleLoading(),
             ],
           )),
     );
