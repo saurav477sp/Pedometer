@@ -1,123 +1,155 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pedometer/controller/otp_varification_controller.dart';
 import 'package:pedometer/pages/create_new_password.dart';
-import 'package:pedometer/services/messenging/otp_mail.dart';
 import 'package:pedometer/services/otp_generator.dart';
 import 'package:pedometer/widgets/back_icon.dart';
+import 'package:pedometer/widgets/buttons/app_button.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
+import 'package:pedometer/widgets/input/app_input.dart';
 import 'package:pedometer/widgets/input/otp_inputfield.dart';
 import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/text/body_text_small.dart';
+import 'package:pedometer/widgets/text/heading_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class OtpVarification extends StatefulWidget {
-  final String otp;
-  final String email;
-  const OtpVarification({super.key, required this.otp, required this.email});
+  const OtpVarification({super.key});
 
   @override
   State<OtpVarification> createState() => _OtpVarificationState();
 }
 
 class _OtpVarificationState extends State<OtpVarification> {
-  late String email;
-  List<TextEditingController> textEditingController =
-      List.generate(4, (index) => TextEditingController());
-  List<FocusNode> focusnode = List.generate(4, (index) => FocusNode());
-
-  Size size = Get.size;
-  late String currentOTP;
+  late OtpVarificationController otpVarificationController;
 
   @override
   void initState() {
     super.initState();
-    currentOTP = widget.otp;
-    email = widget.email;
+    otpVarificationController = Get.put(OtpVarificationController());
+    otpVarificationController.getPassedData();
   }
 
-  void verifyOTP() {
-    String otp = textEditingController.map((e) => e.text).join();
-    currentOTP == otp
-        ? {
-            Get.snackbar('success', 'otp varified'),
-            Get.to(() => CreateNewPassword(email: email,))
-          }
-        : Get.snackbar('fail', 'fail to varify');
-  }
-
-  void resendOTP() async{
-    String newOTP = OtpGenerator().generateOTP();
-    bool isotpSent = await OtpMail().sendOTP(email, newOTP);
-    Get.snackbar('otp', newOTP);
-    if (newOTP.isNotEmpty && isotpSent) {
-      setState(() {
-        currentOTP = newOTP;
-        for (var controller in textEditingController) {
-          controller.clear();
-        }
-        FocusScope.of(context).requestFocus(focusnode[0]);
-      });
-    }
+  @override
+  void dispose() {
+    otpVarificationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
-        padding:
-            EdgeInsets.fromLTRB(size.width * 0.08, 80, size.width * 0.08, 30),
+        padding: EdgeInsets.fromLTRB(
+          size.width * 0.08,
+          80,
+          size.width * 0.08,
+          20,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 45,
           children: [
-            const BackIcon(),
-            const SizedBox(
-              height: 45,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const BodyTextBig(text: 'OTP Varification'),
-                    const SizedBox(height: 15,),
-                    const BodyTextSmall(
-                      text:
-                          'Enter the varification code we just sent to your email address.',
-                      fontWeight: FontWeight.w300,
+            BackIcon(),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 15,
+                children: [
+                  HeadingTextSmall(text: 'OTP Varification'),
+                  BodyTextSmall(
+                    text:
+                        'Enter the varification code we just sent to your email address.',
+                    fontWeight: FontWeight.w300,
+                    textAlign: TextAlign.left,
+                    fontSize: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                      otpVarificationController.otpController.length,
+                      (index) => AppInput(
+                        textEditingController:
+                            otpVarificationController.otpController[index],
+                        focusNode:
+                            otpVarificationController.otpFocusNode[index],
+                        textInputType: TextInputType.number,
+                        height: 88,
+                        width: 58,
+
+                        borderRadius: BorderRadius.circular(10),
+                        textAlign: TextAlign.center,
+                        textInputFormatter: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onchange: (value) {
+                          if (value != null) {
+                            if (value.isNotEmpty && index < 3) {
+                              FocusScope.of(context).requestFocus(
+                                otpVarificationController.otpFocusNode[index +
+                                    1],
+                              );
+                            } else if (value.isEmpty && index >= 1) {
+                              FocusScope.of(context).requestFocus(
+                                otpVarificationController.otpFocusNode[index -
+                                    1],
+                              );
+                            }
+                          }
+                        },
+                      ),
                     ),
-                    const SizedBox(height: 15,),
-                    OtpInputfield(
-                      textEditingController: textEditingController,
-                      focusnode: focusnode,
+                  ),
+
+                  Obx(
+                    () => AppButton(
+                      btnText: 'Varify',
+                      isLoading: otpVarificationController.isVarifying.value,
+                      onClick: () => otpVarificationController.varifyOtp(),
                     ),
-                    const SizedBox(height: 20,),
-                    SubmitButton(
-                      text: 'Varify',
-                      onClick: () => verifyOTP(),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Center(
-                child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 2,
               children: [
-                const CustomTextButton(
-                  text: 'Did\'n received code? ',
-                  fontWeight: FontWeight.w500,
+                Obx(
+                  () => CustomTextButton(
+                    text:
+                        otpVarificationController.isOtpResend.value
+                            ? 'Did\'n received code? '
+                            : 'Resend otp in: ',
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                CustomTextButton(
-                  text: 'Resend',
-                  fontColor: Colors.yellow,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  onPressed: () => resendOTP(),
-                )
+                Obx(
+                  () => CustomTextButton(
+                    text:
+                        otpVarificationController.isOtpResend.value
+                            ? 'Resend'
+                            : '${otpVarificationController.timerSeconds.value}s',
+                    fontColor: theme.colorScheme.secondary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    onPressed:
+                        otpVarificationController.isOtpResend.value
+                            ? () => otpVarificationController.resendOTP()
+                            : () {},
+                  ),
+                ),
               ],
-            )),
-            const SizedBox(height: 20),
+            ),
           ],
         ),
       ),

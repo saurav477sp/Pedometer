@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/pages/home.dart';
-import 'package:pedometer/pages/login.dart';
-import 'package:pedometer/helper/firebase_helper.dart.dart';
-import 'package:pedometer/services/input_varification.dart';
+import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/constants.dart';
+import 'package:pedometer/controller/regitration_controller.dart';
 import 'package:pedometer/widgets/back_icon.dart';
-import 'package:pedometer/widgets/buttons/submit_button.dart';
-import 'package:pedometer/widgets/circle_loading.dart';
-import 'package:pedometer/widgets/custom_snackbar.dart';
-import 'package:pedometer/widgets/input/custom_textfield.dart';
-import 'package:pedometer/widgets/input/password_field.dart';
+import 'package:pedometer/widgets/buttons/app_button.dart';
+import 'package:pedometer/widgets/input/app_input.dart';
 import 'package:pedometer/widgets/logo.dart';
 import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
@@ -22,171 +19,149 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _conformPasswordController =
-      TextEditingController();
-  RxBool isSuffixVisible = false.obs;
-  RxBool isLoading = false.obs;
-  late InputVarification inputVarification;
-  late Size size;
-  late FirebaseHelper authentication;
+  RegistrationController registrationController = Get.put(
+    RegistrationController(),
+  );
 
   @override
-  void initState() {
-    super.initState();
-    inputVarification = InputVarification();
-    size = Get.size;
-    authentication = FirebaseHelper();
-  }
-
-  Future<void> inputValidate() async {
-    // Check for empty fields
-    if (_usernameController.text.isEmpty ||
-        _emailController.text.isEmpty ||
-        _passwordController.text.isEmpty ||
-        _conformPasswordController.text.isEmpty) {
-      Get.snackbar('empty', 'please enter all field');
-      return;
-    } else if (!inputVarification.emailVarify(_emailController.text)) {
-      Get.snackbar('email', 'please enter valide email');
-    } else if (!inputVarification.passwordVarify(_passwordController.text)) {
-      Get.snackbar('password', 'please enter strong password');
-    } else if (_passwordController.text != _conformPasswordController.text) {
-      Get.snackbar('password', 'both password must be same');
-    } else {
-      isLoading.value = true;
-      bool check = await authentication.signUpwithEmailandPassword(
-          userName: _usernameController.text,
-          email: _emailController.text,
-          password: _passwordController.text);
-      if (check) {
-        isLoading.value = false;
-        Get.to(() => const Home());
-      } else {
-        isLoading.value = false;
-        CustomSnackbar.showSnackbar('error', 'something went wrong');
-      }
-    }
-
-    // Validate email format
-    if (!inputVarification.emailVarify(_emailController.text)) {
-      Get.snackbar('email', 'please enter valide email');
-      return;
-    }
-
-    // Validate password strength
-    if (!inputVarification.passwordVarify(_passwordController.text)) {
-      Get.snackbar('password', 'please enter strong password');
-      return;
-    }
-
-    // Check if passwords match
-    if (_passwordController.text != _conformPasswordController.text) {
-      Get.snackbar('password', 'both password must be same');
-      return;
-    }
-
-    // Start loading state
-    isLoading.value = true;
-
-    // Attempt registration
-    bool check = await authentication.signUpwithEmailandPassword(
-        userName: _usernameController.text,
-        email: _emailController.text,
-        password: _passwordController.text);
-
-    check
-        ? Get.to(() => const Home())
-        : CustomSnackbar.showSnackbar('error', 'something went wrong');
-    isLoading.value = false;
+  void dispose() {
+    registrationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     return Scaffold(
-      body: Obx(() => Stack(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+          size.width * 0.08,
+          80,
+          size.width * 0.08,
+          10,
+        ),
+        child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    size.width * 0.08, 80, size.width * 0.08, 30),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const BackIcon(),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      const Logo(
-                        radius: 30,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const BodyTextBig(
-                        text: 'Hello! Register to get started',
-                        fontSize: 27,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomTextfield(
-                          textEditingController: _usernameController,
-                          hintText: 'Username'),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      CustomTextfield(
-                          textEditingController: _emailController,
-                          hintText: 'Email'),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      PasswordField(
-                          textEditingController: _passwordController,
-                          hintText: 'Password'),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      PasswordField(
-                          textEditingController: _conformPasswordController,
-                          hintText: 'Conform Password'),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SubmitButton(
-                        text: 'Submit',
-                        onClick: () => inputValidate(),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 70),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CustomTextButton(
-                                text: 'Already have an account? ',
-                                onPressed: () => Get.to(const Login()),
-                                fontWeight: FontWeight.w500),
-                            CustomTextButton(
-                              text: 'Login Now',
-                              fontColor: Colors.yellow,
-                              fontSize: 14,
-                              onPressed: () => Get.to(const Login()),
-                              fontWeight: FontWeight.w500,
+              BackIcon(),
+              SizedBox(height: 50),
+              Logo(radius: 30),
+              SizedBox(height: 20),
+              BodyTextBig(text: 'Hello! Register to get started', fontSize: 27),
+              SizedBox(height: 30),
+              Form(
+                key: registrationController.registrationKey,
+                child: Column(
+                  spacing: 15,
+                  children: [
+                    AppInput(
+                      textEditingController:
+                          registrationController.userNameController,
+                      hintText: 'Username',
+                      validator:
+                          MultiValidator([
+                            RequiredValidator(
+                              errorText: 'Username is required',
                             ),
-                          ],
+                          ]).call,
+                    ),
+                    AppInput(
+                      textEditingController:
+                          registrationController.emailController,
+                      hintText: 'Email',
+                      validator: emailValidator.call,
+                    ),
+                    Obx(
+                      () => AppInput(
+                        textEditingController:
+                            registrationController.passwordController,
+                        hintText: 'Password',
+                        obscureText:
+                            registrationController.passwordObsecure.value,
+                        suffixIcon: IconButton(
+                          onPressed:
+                              () =>
+                                  registrationController
+                                      .passwordObsecure
+                                      .value = !registrationController
+                                          .passwordObsecure
+                                          .value,
+                          icon:
+                              registrationController.passwordObsecure.value
+                                  ? const Icon(Icons.visibility_off)
+                                  : const Icon(Icons.visibility),
                         ),
+                        validator: passwordValidator.call,
                       ),
-                    ],
-                  ),
+                    ),
+                    Obx(
+                      () => AppInput(
+                        textEditingController:
+                            registrationController.rePasswordController,
+                        hintText: 'Conform Password',
+                        obscureText:
+                            registrationController.rePasswordObSecure.value,
+                        suffixIcon: IconButton(
+                          onPressed:
+                              () =>
+                                  registrationController
+                                      .rePasswordObSecure
+                                      .value = !registrationController
+                                          .rePasswordObSecure
+                                          .value,
+                          icon:
+                              registrationController.rePasswordObSecure.value
+                                  ? const Icon(Icons.visibility_off)
+                                  : const Icon(Icons.visibility),
+                        ),
+                        validator: (value) {
+                          if (value !=
+                              registrationController.passwordController.text) {
+                            return 'conform password must same as password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Obx(
+                      () => AppButton(
+                        btnText: 'Submit',
+                        isLoading: registrationController.isProcessing.value,
+                        onClick: registrationController.onSubmit,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              if (isLoading.value) const CircleLoading(),
+              Container(
+                margin: EdgeInsets.only(top: 70),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomTextButton(
+                      text: 'Already have an account? ',
+                      onPressed: () => Get.offNamed(AppRoute.login),
+                      fontWeight: FontWeight.w500,
+                    ),
+                    CustomTextButton(
+                      text: 'Login Now',
+                      fontColor: theme.colorScheme.secondary,
+                      fontSize: 14,
+                      onPressed: () => Get.offNamed(AppRoute.login),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

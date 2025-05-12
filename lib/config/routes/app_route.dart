@@ -28,7 +28,7 @@ class AppRouteConfig {
     GetPage(name: AppRoute.login, page: () => Login(),),
     GetPage(name: AppRoute.home, page: () => Home(),),
     GetPage(name: AppRoute.passwordChange, page: () => PasswordChangedUi(),),
-    GetPage(name: AppRoute.otpVarification, page: () => OtpVarification(email: '',otp: '',),),
+    GetPage(name: AppRoute.otpVarification, page: () => OtpVarification(),),
     GetPage(name: AppRoute.forgotPassword, page: () => ForgotPassword(),),
     GetPage(name: AppRoute.createNewPassword, page: () => CreateNewPassword(email: '',),),
     GetPage(name: AppRoute.getStarted, page: () => GetStarted(),),

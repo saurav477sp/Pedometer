@@ -4,7 +4,7 @@ import 'package:pedometer/pages/home.dart';
 import 'package:pedometer/services/input_varification.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/submit_button.dart';
-import 'package:pedometer/widgets/custom_snackbar.dart';
+import 'package:pedometer/widgets/popup/snackbar.dart';
 import 'package:pedometer/widgets/input/password_field.dart';
 import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/text/body_text_small.dart';

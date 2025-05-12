@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/config/theme/custom_colors.dart';
 
 class Logo extends StatelessWidget {
   final double radius;

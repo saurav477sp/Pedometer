@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pedometer/widgets/text/sub_heading_text.dart';
 import 'package:pedometer/widgets/text/text_style.dart';
 
@@ -6,6 +7,7 @@ enum AppInputBorderType { none, underline, all }
 
 class AppInput extends StatelessWidget {
   final double? width;
+  final double? height;
   final String? label;
   final bool obscureText;
   final String? hintText;
@@ -34,9 +36,14 @@ class AppInput extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color? cursorcolor;
   final Color? borderFocusColor;
+  final TextAlign textAlign;
+  final List<TextInputFormatter>? textInputFormatter;
+  final Function()? onTap;
+  final Function()? onEditinComplete;
   const AppInput({
     super.key,
     this.width,
+    this.height,
     this.label,
     this.obscureText = false,
     this.hintText,
@@ -49,6 +56,7 @@ class AppInput extends StatelessWidget {
     this.enable,
     this.readOnly = false,
     this.borderType = AppInputBorderType.all,
+    this.textAlign = TextAlign.start,
     this.maxLength,
     this.maxLines,
     this.prefix,
@@ -65,6 +73,9 @@ class AppInput extends StatelessWidget {
     this.borderRadius,
     this.cursorcolor,
     this.borderFocusColor,
+    this.textInputFormatter,
+    this.onTap,
+    this.onEditinComplete,
   });
 
   InputBorder getBorder(
@@ -102,57 +113,66 @@ class AppInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return TextFormField(
-      textInputAction: textInputAction,
-      onFieldSubmitted: onSubmit,
-      focusNode: focusNode,
-      maxLength: maxLength,
-      maxLines: maxLines ?? 1,
-      keyboardType: textInputType,
-      enabled: enable,
-      readOnly: readOnly,
-      controller: textEditingController,
-      validator: validator,
-      obscureText: obscureText,
-      onChanged: onchange,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: theme.colorScheme.onPrimary.withOpacity(0.5),
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          fontFamily: AppFontFamily.primary.toValues(),
+    return Container(
+      width: width,
+      height: height,
+      alignment: Alignment.center,
+      child: TextFormField(
+        textInputAction: textInputAction,
+        onFieldSubmitted: onSubmit,
+        focusNode: focusNode,
+        maxLength: maxLength,
+        textAlign: textAlign,
+        maxLines: maxLines ?? 1,
+        keyboardType: textInputType,
+        enabled: enable,
+        readOnly: readOnly,
+        controller: textEditingController,
+        validator: validator,
+        inputFormatters: textInputFormatter,
+        obscureText: obscureText,
+        onChanged: onchange,
+        onTap: onTap,
+        onEditingComplete: onEditinComplete,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextStyle(
+            color: theme.colorScheme.onPrimary.withOpacity(0.5),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            fontFamily: AppFontFamily.primary.toValues(),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 15,
+            horizontal: 20,
+          ),
+          border: getBorder(theme),
+          enabledBorder: getBorder(theme),
+          focusedBorder: getBorder(
+            theme,
+            focusColor: borderFocusColor ?? theme.colorScheme.onPrimary,
+          ),
+          errorBorder: getBorder(theme, isError: true),
+          fillColor: fillColor ?? theme.colorScheme.tertiary,
+          error:
+              errorText != null
+                  ? SubHeadingText(
+                    text: errorText!,
+                    color: errorColorCode ?? theme.colorScheme.error,
+                  )
+                  : null,
+          errorMaxLines: 1,
+          filled: true,
+          prefix: prefix,
+          prefixIcon: prefixIcon,
+          suffix: suffix,
+          suffixIcon: suffixIcon,
+          prefixIconColor: prefixColor ?? theme.colorScheme.onPrimary,
+          suffixIconColor: suffixColor ?? theme.colorScheme.onPrimary,
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 20,
-        ),
-        border: getBorder(theme),
-        enabledBorder: getBorder(theme),
-        focusedBorder: getBorder(
-          theme,
-          focusColor: borderFocusColor ?? theme.colorScheme.onPrimary,
-        ),
-        errorBorder: getBorder(theme, isError: true),
-        fillColor: fillColor ?? theme.colorScheme.tertiary,
-        error:
-            errorText != null
-                ? SubHeadingText(
-                  text: errorText!,
-                  color: errorColorCode ?? theme.colorScheme.error,
-                )
-                : null,
-        errorMaxLines: 1,
-        filled: true,
-        prefix: prefix,
-        prefixIcon: prefixIcon,
-        suffix: suffix,
-        suffixIcon: suffixIcon,
-        prefixIconColor: prefixColor ?? theme.colorScheme.onPrimary,
-        suffixIconColor: suffixColor ?? theme.colorScheme.onPrimary,
+        style: TextStyle(color: theme.colorScheme.onPrimary),
+        cursorColor: cursorcolor ?? theme.colorScheme.onPrimary,
       ),
-      style: TextStyle(color: theme.colorScheme.onPrimary),
-      cursorColor: cursorcolor ?? theme.colorScheme.onPrimary,
     );
   }
 }

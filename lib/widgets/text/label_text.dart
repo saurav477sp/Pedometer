@@ -6,7 +6,7 @@ class LabelText extends StatelessWidget {
   final Color? color;
   final double fontSize;
   final TextAlign textAlign;
-  final FontWeight fontWeight;
+  final FontWeight? fontWeight;
   final AppFontFamily fontFamily;
   final TextDecoration? textDecoration;
   final TextOverflow? textOverflow;
@@ -19,7 +19,7 @@ class LabelText extends StatelessWidget {
     this.textDecoration,
     this.textAlign = TextAlign.center,
     this.fontSize = 18,
-    this.fontWeight = FontWeight.normal,
+    this.fontWeight,
   });
 
   @override
@@ -31,7 +31,7 @@ class LabelText extends StatelessWidget {
       style: TextStyle(
         color: color ?? theme.colorScheme.onPrimary,
         fontSize: fontSize,
-        fontWeight: fontWeight,
+        fontWeight: fontWeight ?? FontWeight.normal,
         fontFamily: fontFamily.toValues(),
         decoration: textDecoration,
         overflow: textOverflow,

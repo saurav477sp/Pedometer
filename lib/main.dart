@@ -2,11 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pedometer/config/app_settings.dart';
 import 'package:pedometer/config/notification_config.dart';
-import 'package:pedometer/config/theme/app_color.dart';
 import 'package:pedometer/firebase_options.dart';
 
 Future<void> main() async {

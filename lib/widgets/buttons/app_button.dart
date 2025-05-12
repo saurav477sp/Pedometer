@@ -30,10 +30,11 @@ class AppButton extends StatelessWidget {
   final FontWeight fontWeight;
   final AppFontFamily fontFamily;
   final String loadingText;
+  final bool loadingCircle;
 
   const AppButton({
     super.key,
-    this.height = 58,
+    this.height = 55,
     this.borderRadius,
     this.buttonType = ButtonTypeVarient.fill,
     this.buttonColorVarients = ButtonColorVarients.primary,
@@ -49,13 +50,14 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.prefixIcon,
     this.suffixIcon,
-    this.fontSize = 16,
+    this.fontSize = 17,
     this.prefixSvgIconPath = '',
     this.suffixSvgIconPath = '',
     required this.btnText,
     this.fontWeight = FontWeight.w500,
     this.fontFamily = AppFontFamily.primary,
     this.loadingText = 'In Progress...',
+    this.loadingCircle = false,
   });
 
   @override
@@ -63,9 +65,9 @@ class AppButton extends StatelessWidget {
     var theme = Theme.of(context);
     return Container(
       width: double.infinity,
-      height: 58,
+      height: height,
       decoration: BoxDecoration(
-        borderRadius: borderRadius ?? BorderRadius.circular(height / 2),
+        borderRadius: borderRadius ?? BorderRadius.circular(100000),
         color:
             buttonType == ButtonTypeVarient.fill
                 ? desabled
@@ -96,7 +98,7 @@ class AppButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            isLoading
+            isLoading && loadingCircle
                 ? CircleLoading(
                   height: 20,
                   width: 20,
@@ -159,8 +161,13 @@ class AppButton extends StatelessWidget {
             ),
 
             BodyTextSmall(
-              text: isLoading ? '$btnText...' : btnText,
-              fontSize: 17,
+              text:
+                  isLoading
+                      ? loadingText.isNotEmpty
+                          ? loadingText
+                          : '$btnText...'
+                      : btnText,
+              fontSize: fontSize,
               fontWeight: fontWeight,
               fontFamily: fontFamily,
               color:

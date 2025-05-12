@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/constants.dart';
 import 'package:pedometer/controller/login_controller.dart';
-import 'package:pedometer/pages/forgot_password.dart';
-import 'package:pedometer/pages/registration.dart';
-import 'package:pedometer/services/input_varification.dart';
-import 'package:pedometer/widgets/back_icon.dart';
-import 'package:pedometer/widgets/buttons/submit_button.dart';
+import 'package:pedometer/widgets/buttons/app_button.dart';
 import 'package:pedometer/widgets/input/app_input.dart';
 import 'package:pedometer/widgets/logo.dart';
 import 'package:pedometer/widgets/text/heading_text_small.dart';
@@ -22,12 +18,17 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   LoginController loginController = Get.put(LoginController());
-  InputVarification inputVarification = InputVarification();
-  RxBool isSuffixVisible = false.obs;
+
+  @override
+  void dispose() {
+    loginController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -35,12 +36,12 @@ class _LoginState extends State<Login> {
           size.width * 0.08,
           80,
           size.width * 0.08,
-          30,
+          10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BackIcon(),
+            // BackIcon(),
             Expanded(
               child: Center(
                 child: Form(
@@ -59,17 +60,8 @@ class _LoginState extends State<Login> {
                         AppInput(
                           textEditingController:
                               loginController.emailController,
-                          hintText: 'Email',
-                          validator:
-                              MultiValidator([
-                                RequiredValidator(
-                                  errorText: 'email is required',
-                                ),
-                                PatternValidator(
-                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                                  errorText: 'please enter valide email',
-                                ),
-                              ]).call,
+                          hintText: 'email',
+                          validator: emailValidator.call,
                         ),
                         SizedBox(height: 15),
                         Obx(
@@ -88,20 +80,7 @@ class _LoginState extends State<Login> {
                                       ? const Icon(Icons.visibility_off)
                                       : const Icon(Icons.visibility),
                             ),
-                            validator:
-                                MultiValidator([
-                                  RequiredValidator(
-                                    errorText: 'password is required',
-                                  ),
-                                  MinLengthValidator(
-                                    7,
-                                    errorText: 'password must be 8 degite long',
-                                  ),
-                                  PatternValidator(
-                                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                                    errorText: 'please enter valide password',
-                                  ),
-                                ]).call,
+                            validator: passwordValidator.call,
                           ),
                         ),
                         SizedBox(height: 15),
@@ -117,15 +96,12 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SubmitButton(
-                          text: 'Submit',
-                          // onClick: () => inputValidate(),
-                          onClick: () {
-                            if (loginController.loginKey.currentState!
-                                .validate()) {
-                              loginController.onSubmited();
-                            }
-                          },
+                        Obx(
+                          () => AppButton(
+                            btnText: 'Submit',
+                            isLoading: loginController.isSubmitting.value,
+                            onClick: loginController.onSubmited,
+                          ),
                         ),
                       ],
                     ),
@@ -133,25 +109,23 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 2,
-                children: [
-                  CustomTextButton(
-                    text: 'Don\'t have an account? ',
-                    fontWeight: FontWeight.w500,
-                    onPressed: () => Get.offAll(() => const Registration()),
-                  ),
-                  CustomTextButton(
-                    text: 'Register Now',
-                    fontColor: Colors.yellow,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    onPressed: () => Get.offAll(() => const Registration()),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 2,
+              children: [
+                CustomTextButton(
+                  text: 'Don\'t have an account? ',
+                  fontWeight: FontWeight.w500,
+                  onPressed: () => Get.offNamed(AppRoute.registration),
+                ),
+                CustomTextButton(
+                  text: 'Register Now',
+                  fontColor: theme.colorScheme.secondary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  onPressed: () => Get.offNamed(AppRoute.registration),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
           ],

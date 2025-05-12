@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pedometer/helper/firebase_helper.dart.dart';
-import 'package:pedometer/widgets/bottom/custom_bottom_navigation_bar%20.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -45,19 +44,16 @@ class _HomeState extends State<Home> {
       },
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.green),
-        body: Visibility(
-          visible: isLogedin,
-          child: Center(
-            child: FilledButton(
-              onPressed: () async => await authentication.signout(),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.amber),
-              ),
-              child: const Text('sign out'),
+        body: Center(
+          child: FilledButton(
+            onPressed: () async => await authentication.signout(),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.amber),
             ),
+            child: const Text('sign out'),
           ),
         ),
-        bottomNavigationBar: const CustomBottomNavigationBar(),
+        // bottomNavigationBar: const CustomBottomNavigationBar(),
       ),
     );
   }
@@ -68,7 +64,6 @@ class WhiteInfoBox extends StatelessWidget {
   final String title;
   final String subtitle;
   final Widget? icon;
-
   const WhiteInfoBox({
     super.key,
     required this.title,

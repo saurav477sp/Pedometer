@@ -3,20 +3,21 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/pages/home.dart';
+import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/helper/firebase_database_helper.dart';
+import 'package:pedometer/helper/local_storage_helper.dart';
 import 'package:pedometer/pages/login.dart';
-import 'package:pedometer/widgets/custom_snackbar.dart';
+import 'package:pedometer/widgets/popup/snackbar.dart';
 
 class FirebaseHelper {
   final auth = FirebaseAuth.instance;
 
-  Future<bool> signUpwithEmailandPassword({
+  Future<User?> signUpwithEmailandPassword({
     required String email,
     required String password,
     required String userName,
   }) async {
     try {
-      final auth = FirebaseAuth.instance;
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -24,42 +25,28 @@ class FirebaseHelper {
 
       log(userCredential.toString());
 
-      await storeUserData(
-        uid: userCredential.user!.uid,
-        userName: userName,
-        email: email,
-      );
+      if (userCredential.user != null) {
+        String emailID = email.replaceAll('.', ',');
+        log(emailID);
+        await userCredential.user!.updateDisplayName(userName);
+        bool isStored = await FirebaseDatabaseHelper().storeUserData(
+          email: emailID,
+          data: {'userName': userName},
+        );
 
-      return true;
+        if (isStored) return userCredential.user;
+      }
     } on FirebaseException catch (e) {
-      CustomSnackbar.showSnackbar('Error', e.message.toString());
-      return false;
+      log('firebase create user firebase exception =======>  ${e.toString()}');
+      showSnackbar(getFriendlyAuthMessage(e.code));
     } catch (e) {
-      CustomSnackbar.showSnackbar('Error', e.toString());
-      return false;
+      log('firebase create user exception =======>  ${e.toString()}');
+      showSnackbar('something went\'s wrong, please try again');
     }
+    return null;
   }
 
-  Future<void> storeUserData({
-    required String uid,
-    required String userName,
-    required String email,
-  }) async {
-    try {
-      DatabaseReference databaseReference = FirebaseDatabase.instance.ref(
-        'user',
-      );
-
-      await databaseReference.child(uid).set({
-        'userName': userName,
-        'email': email,
-      });
-    } on FirebaseException catch (e) {
-      CustomSnackbar.showSnackbar('problem', e.message.toString());
-    }
-  }
-
-  Future<void> signinUser(String email, String password) async {
+  Future<User?> signinUser(String email, String password) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
@@ -69,14 +56,16 @@ class FirebaseHelper {
       log(userCredential.toString());
 
       if (userCredential.user != null) {
-        CustomSnackbar.showSnackbar('user', 'user loged in');
-        Get.offAll(() => const Home());
+        return userCredential.user;
       }
     } on FirebaseException catch (e) {
-      CustomSnackbar.showSnackbar('error', e.message.toString());
+      log('firebase sign in firebase exception =======>  ${e.toString()}');
+      showSnackbar(getFriendlyAuthMessage(e.code));
     } on Exception catch (e) {
-      CustomSnackbar.showSnackbar('error', e.toString());
+      log('firebase sign in exception =======>  ${e.toString()}');
+      showSnackbar(getFriendlyAuthMessage(e.toString()));
     }
+    return null;
   }
 
   Future<void> fetchEmail(String email) async {
@@ -114,17 +103,20 @@ class FirebaseHelper {
       if (user != null) {
         await user.updatePassword(newPassword);
       } else {
-        CustomSnackbar.showSnackbar('error', 'something wents wrong');
+        showSnackbar('something wents wrong');
       }
       return true;
     } on FirebaseAuthException catch (e) {
-      CustomSnackbar.showSnackbar('problem', e.message.toString());
+      showSnackbar(e.message.toString());
       log(e.message.toString());
       return false;
     }
   }
 
   Future<bool> isEmailRegistered(String email) async {
+    // alternative
+    // QuerySnapshot query = await FirebaseFirestore.instance.collection('users').where("e-mail", isEqualTo: email).get();
+
     try {
       log(email);
       var signInMethods = await FirebaseAuth.instance
@@ -132,8 +124,14 @@ class FirebaseHelper {
       log(signInMethods.toString());
       return signInMethods.isNotEmpty;
     } on FirebaseException catch (e) {
-      CustomSnackbar.showSnackbar('error', e.message.toString().toLowerCase());
-      log(e.message.toString());
+      log(
+        'firebase exception for check mail exist or not =====>  ${e.message.toString()}',
+      );
+      showSnackbar(e.message.toString());
+      return false;
+    } on Exception catch (e) {
+      log('exception while checking email id ======> $e');
+      showSnackbar('please try again');
       return false;
     }
   }
@@ -141,10 +139,45 @@ class FirebaseHelper {
   Future<void> signout() async {
     try {
       await auth.signOut();
-      CustomSnackbar.showSnackbar('sign out', 'user sign out');
-      Get.offAll(() => const Login());
+      LocalStorageHelper.removeItem('uid');
+      showSnackbar('user sign out');
+      Get.offAllNamed(AppRoute.getStarted);
     } on Exception catch (e) {
-      CustomSnackbar.showSnackbar('Error', e.toString());
+      showSnackbar(e.toString());
+    }
+  }
+
+  Future<void> deleteCurrentUser() async {
+    try {
+      User? user = auth.currentUser;
+      if (user != null) await user.delete();
+    } on Exception catch (e) {
+      log('delete user exceptions ======> $e');
+    }
+  }
+
+  String getFriendlyAuthMessage(String errorCode) {
+    switch (errorCode) {
+      case 'user-not-found':
+        return 'No account found with this email.';
+      case 'wrong-password':
+        return 'Please enter valide password';
+      case 'email-already-in-use':
+        return 'This email is already in use. Try logging in instead.';
+      case 'invalid-email':
+        return 'Invalid email format.';
+      case 'weak-password':
+        return 'Password is too weak. Use a stronger one.';
+      case 'network-request-failed':
+        return 'Network error. Check your connection and try again.';
+      case 'operation-not-allowed':
+        return 'This sign-in method is not enabled. Contact support.';
+      case 'too-many-requests':
+        return 'We’ve blocked requests from this device due to unusual activity. Please try again later.';
+      case 'invalid-credential':
+        return 'please enter valide email and password';
+      default:
+        return 'Something went wrong. Please try again later.';
     }
   }
 }

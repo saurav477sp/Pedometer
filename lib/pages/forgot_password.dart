@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/pages/otp_varification.dart';
-import 'package:pedometer/services/input_varification.dart';
-import 'package:pedometer/services/messenging/otp_mail.dart';
-import 'package:pedometer/services/otp_generator.dart';
+import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/constants.dart';
+import 'package:pedometer/controller/forgot_password_controller.dart';
 import 'package:pedometer/widgets/back_icon.dart';
-import 'package:pedometer/widgets/buttons/submit_button.dart';
-import 'package:pedometer/widgets/custom_snackbar.dart';
-import 'package:pedometer/widgets/input/custom_textfield.dart';
-import 'package:pedometer/widgets/text/body_text_big.dart';
+import 'package:pedometer/widgets/buttons/app_button.dart';
+import 'package:pedometer/widgets/input/app_input.dart';
 import 'package:pedometer/widgets/text/body_text_small.dart';
+import 'package:pedometer/widgets/text/heading_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -20,98 +18,86 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final TextEditingController _emailController = TextEditingController();
-  Size size = Get.size;
+  ForgotPasswordController forgotPasswordController = Get.put(
+    ForgotPasswordController(),
+  );
 
-  void otpGenerate() async {
-    bool isValidEmail = InputVarification().emailVarify(_emailController.text);
-    // bool isRegistered = await Authentication().isEmailRegistered(_emailController.text);
-    // log(isRegistered);
-
-    if (!isValidEmail) {
-      CustomSnackbar.showSnackbar(
-          'Error', 'Please enter a valid email address.');
-      return;
-    }
-    // if (!isRegistered) {
-    //   CustomSnackbar.showSnackbar('Error', 'No account found with this email.');
-    //   return;
-    // }
-
-    // Generate and send OTP
-    String otp = OtpGenerator().generateOTP();
-
-    // check email is exist or not
-
-    bool isotpSent = await OtpMail().sendOTP(_emailController.text, otp);
-    isotpSent
-        ? {
-            Get.to(() => OtpVarification(
-                  otp: otp,
-                  email: _emailController.text,
-                )),
-            CustomSnackbar.showSnackbar('otp', otp),
-          }
-        : CustomSnackbar.showSnackbar('otp', 'otp not send');
+  @override
+  void dispose() {
+    forgotPasswordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
-        padding:
-            EdgeInsets.fromLTRB(size.width * 0.08, 80, size.width * 0.08, 30),
+        padding: EdgeInsets.fromLTRB(
+          size.width * 0.08,
+          80,
+          size.width * 0.08,
+          30,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 25,
           children: [
-            const BackIcon(),
-            const SizedBox(
-              height: 45,
+            BackIcon(),
+            SizedBox(height: 10),
+            HeadingTextSmall(text: 'forgot Password?'),
+            BodyTextSmall(
+              text:
+                  'Don\'t worry! It occures. Please enter the email address linked with your account.',
+              fontWeight: FontWeight.w300,
+              textAlign: TextAlign.left,
+              fontSize: 16,
             ),
             Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const BodyTextBig(text: 'forgot Password?'),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  const BodyTextSmall(
-                    text:
-                        'Don\'t worry! It occures. Please enter the email address linked with your account.',
-                    fontWeight: FontWeight.w300,
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  CustomTextfield(
-                    textEditingController: _emailController,
-                    hintText: 'Email',
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  SubmitButton(
-                      text: 'Send Code',
-                      onClick: () => otpGenerate()),
-                ],
+              child: Form(
+                key: forgotPasswordController.forgotPassKey,
+                child: Column(
+                  spacing: 35,
+                  children: [
+                    AppInput(
+                      textEditingController:
+                          forgotPasswordController.emailController,
+                      hintText: 'Email',
+                      validator: emailValidator.call,
+                    ),
+                    Obx(
+                      () => AppButton(
+                        btnText: 'Send Code',
+                        isLoading: forgotPasswordController.isSubmiting.value,
+                        loadingText: 'Sending otp...',
+                        onClick: () => forgotPasswordController.onSubmit(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            )),
-            const Center(
-                child: Row(
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 2,
               children: [
-                CustomTextButton(text: 'Remember Password? '),
+                CustomTextButton(
+                  text: 'Remember Password? ',
+                  fontWeight: FontWeight.w500,
+                  onPressed: () => Get.offNamed(AppRoute.login),
+                ),
                 CustomTextButton(
                   text: 'Login',
-                  fontColor: Colors.yellow,
+                  fontColor: theme.colorScheme.secondary,
                   fontSize: 14,
-                )
+                  fontWeight: FontWeight.w500,
+                  onPressed: () => Get.offNamed(AppRoute.login),
+                ),
               ],
-            )),
-            const SizedBox(height: 20),
+            ),
           ],
         ),
       ),
