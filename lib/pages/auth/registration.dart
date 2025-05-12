@@ -3,7 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/config/routes/app_route.dart';
 import 'package:pedometer/constants.dart';
-import 'package:pedometer/controller/regitration_controller.dart';
+import 'package:pedometer/controller/auth/regitration_controller.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/app_button.dart';
 import 'package:pedometer/widgets/input/app_input.dart';
@@ -11,28 +11,17 @@ import 'package:pedometer/widgets/logo.dart';
 import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
-class Registration extends StatefulWidget {
+class Registration extends StatelessWidget {
   const Registration({super.key});
-
-  @override
-  State<Registration> createState() => _RegistrationState();
-}
-
-class _RegistrationState extends State<Registration> {
-  RegistrationController registrationController = Get.put(
-    RegistrationController(),
-  );
-
-  @override
-  void dispose() {
-    registrationController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
+    RegistrationController registrationController = Get.put(
+      RegistrationController(),
+      permanent: false,
+    );
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(

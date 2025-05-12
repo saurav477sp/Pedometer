@@ -20,8 +20,18 @@ class _GetStartedState extends State<GetStarted> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () => textOpacity.value = 1.0);
-    Future.delayed(const Duration(seconds: 3), () => buttonOpacity.value = 1.0);
+    delay();
+  }
+
+  void delay() async {
+    await Future.delayed(
+      const Duration(microseconds: 1500),
+      () => textOpacity.value = 1.0,
+    );
+    await Future.delayed(
+      const Duration(milliseconds: 1500),
+      () => buttonOpacity.value = 1.0,
+    );
   }
 
   @override
@@ -39,7 +49,7 @@ class _GetStartedState extends State<GetStarted> {
           mainAxisAlignment: MainAxisAlignment.end,
           spacing: 35,
           children: [
-            Logo(),
+            const Logo(),
             Obx(
               () => AnimatedOpacity(
                 duration: Duration(seconds: 1),

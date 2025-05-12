@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/controller/login_controller.dart';
+import 'package:pedometer/controller/auth/login_controller.dart';
 
 class PasswordField extends StatelessWidget {
   final TextEditingController textEditingController;

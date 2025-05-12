@@ -31,18 +31,6 @@ class OtpVarificationController extends GetxController {
     startTimer();
   }
 
-  @override
-  void onClose() {
-    for (final controller in otpController) {
-      controller.dispose();
-    }
-    for (final node in otpFocusNode) {
-      node.dispose();
-    }
-    clearOtp();
-    super.onClose();
-  }
-
   // clear otp
   void clearOtp() {
     for (final controller in otpController) {
@@ -88,7 +76,13 @@ class OtpVarificationController extends GetxController {
     final enteredOtp = fullOtp;
     log(enteredOtp);
     if (enteredOtp == generatedOtp) {
-      Get.offAndToNamed(AppRoute.createNewPassword);
+      Get.offAndToNamed(
+        AppRoute.createNewPassword,
+        parameters: {'email': email},
+      );
+      clearOtp();
+      email = '';
+      generatedOtp = '';
     } else {
       log('otp varification failed');
       showSnackbar('otp does not match');

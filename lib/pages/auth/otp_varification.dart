@@ -1,18 +1,10 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/controller/otp_varification_controller.dart';
-import 'package:pedometer/pages/create_new_password.dart';
-import 'package:pedometer/services/otp_generator.dart';
+import 'package:pedometer/controller/auth/otp_varification_controller.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/app_button.dart';
-import 'package:pedometer/widgets/buttons/submit_button.dart';
 import 'package:pedometer/widgets/input/app_input.dart';
-import 'package:pedometer/widgets/input/otp_inputfield.dart';
-import 'package:pedometer/widgets/text/body_text_big.dart';
 import 'package:pedometer/widgets/text/body_text_small.dart';
 import 'package:pedometer/widgets/text/heading_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
@@ -32,12 +24,6 @@ class _OtpVarificationState extends State<OtpVarification> {
     super.initState();
     otpVarificationController = Get.put(OtpVarificationController());
     otpVarificationController.getPassedData();
-  }
-
-  @override
-  void dispose() {
-    otpVarificationController.dispose();
-    super.dispose();
   }
 
   @override

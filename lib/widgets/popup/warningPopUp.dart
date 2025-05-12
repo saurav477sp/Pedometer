@@ -38,7 +38,6 @@ class Warningpopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context);
     return Dialog(
       backgroundColor: backgroundColor ?? theme.colorScheme.primaryContainer,
       surfaceTintColor: backgroundColor ?? theme.colorScheme.primaryContainer,

@@ -1,12 +1,10 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/config/routes/app_route.dart';
 import 'package:pedometer/helper/firebase_database_helper.dart';
 import 'package:pedometer/helper/local_storage_helper.dart';
-import 'package:pedometer/pages/login.dart';
 import 'package:pedometer/widgets/popup/snackbar.dart';
 
 class FirebaseHelper {
@@ -68,73 +66,26 @@ class FirebaseHelper {
     return null;
   }
 
-  Future<void> fetchEmail(String email) async {
-    try {
-      DatabaseReference ref = FirebaseDatabase.instance.ref('user');
-      DatabaseEvent event = await ref.once();
-      DataSnapshot snapshot = event.snapshot;
-
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> userdata =
-            snapshot.value as Map<dynamic, dynamic>;
-        List<String> emails = [];
-
-        userdata.forEach((key, value) {
-          if (value is Map && value.containsKey('email')) {
-            emails.add(value['email']);
-          }
-        });
-
-        log(emails.toString());
-      }
-    } on FirebaseException catch (e) {
-      log(e.message.toString());
-    }
-  }
-
-  Future<bool> changePassword(String email, String newPassword) async {
-    try {
-      await fetchEmail(email);
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: newPassword,
-      );
-      User? user = userCredential.user;
-      if (user != null) {
-        await user.updatePassword(newPassword);
-      } else {
-        showSnackbar('something wents wrong');
-      }
-      return true;
-    } on FirebaseAuthException catch (e) {
-      showSnackbar(e.message.toString());
-      log(e.message.toString());
-      return false;
-    }
-  }
-
-  Future<bool> isEmailRegistered(String email) async {
-    // alternative
-    // QuerySnapshot query = await FirebaseFirestore.instance.collection('users').where("e-mail", isEqualTo: email).get();
-
-    try {
-      log(email);
-      var signInMethods = await FirebaseAuth.instance
-          .fetchSignInMethodsForEmail(email.trim());
-      log(signInMethods.toString());
-      return signInMethods.isNotEmpty;
-    } on FirebaseException catch (e) {
-      log(
-        'firebase exception for check mail exist or not =====>  ${e.message.toString()}',
-      );
-      showSnackbar(e.message.toString());
-      return false;
-    } on Exception catch (e) {
-      log('exception while checking email id ======> $e');
-      showSnackbar('please try again');
-      return false;
-    }
-  }
+  // Future<bool> isEmailRegistered(String email) async {
+  //   try {
+  //     log(email);
+  //     // this method works only when email enauration is desabled in cosole but it is not recomended
+  //     var signInMethods = await FirebaseAuth.instance
+  //         .fetchSignInMethodsForEmail(email.trim());
+  //     log(signInMethods.toString());
+  //     return signInMethods.isNotEmpty;
+  //   } on FirebaseException catch (e) {
+  //     log(
+  //       'firebase exception for check mail exist or not =====>  ${e.message.toString()}',
+  //     );
+  //     showSnackbar(e.message.toString());
+  //     return false;
+  //   } on Exception catch (e) {
+  //     log('exception while checking email id ======> $e');
+  //     showSnackbar('please try again');
+  //     return false;
+  //   }
+  // }
 
   Future<void> signout() async {
     try {

@@ -55,7 +55,7 @@ class FirebaseDatabaseHelper {
       log('firebase exception while fetching email from database =======> ${e.toString()}');
       return null;
     } on Exception catch (e) {
-      log('something went\'s wrong, please try again');
+      log('something went\'s wrong, please try again =====> ${e.toString()}');
       return null;
     }
   }

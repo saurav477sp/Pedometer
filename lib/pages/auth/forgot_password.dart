@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pedometer/config/routes/app_route.dart';
 import 'package:pedometer/constants.dart';
-import 'package:pedometer/controller/forgot_password_controller.dart';
+import 'package:pedometer/controller/auth/forgot_password_controller.dart';
 import 'package:pedometer/widgets/back_icon.dart';
 import 'package:pedometer/widgets/buttons/app_button.dart';
 import 'package:pedometer/widgets/input/app_input.dart';
@@ -10,28 +9,17 @@ import 'package:pedometer/widgets/text/body_text_small.dart';
 import 'package:pedometer/widgets/text/heading_text_small.dart';
 import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
-
-  @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-  ForgotPasswordController forgotPasswordController = Get.put(
-    ForgotPasswordController(),
-  );
-
-  @override
-  void dispose() {
-    forgotPasswordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
+    ForgotPasswordController forgotPasswordController = Get.put(
+      ForgotPasswordController(),
+      permanent: false,
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -87,14 +75,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 CustomTextButton(
                   text: 'Remember Password? ',
                   fontWeight: FontWeight.w500,
-                  onPressed: () => Get.offNamed(AppRoute.login),
+                  onPressed: () => Get.back(),
                 ),
                 CustomTextButton(
                   text: 'Login',
                   fontColor: theme.colorScheme.secondary,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  onPressed: () => Get.offNamed(AppRoute.login),
+                  onPressed: () => Get.back(),
                 ),
               ],
             ),
