@@ -98,6 +98,7 @@ class _GetStartedState extends State<GetStarted> {
                       child: CustomTextButton(
                         text: 'Continue as guest',
                         textDecoration: TextDecoration.underline,
+                        textDecorationColor: theme.colorScheme.onPrimary,
                         onPressed: () => Get.offAllNamed(AppRoute.home),
                       ),
                     ),

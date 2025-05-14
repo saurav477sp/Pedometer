@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:pedometer/pages/auth/create_new_password.dart';
 import 'package:pedometer/pages/auth/forgot_password.dart';
 import 'package:pedometer/pages/get_started.dart';
-import 'package:pedometer/pages/home.dart';
 import 'package:pedometer/pages/auth/login.dart';
 import 'package:pedometer/pages/auth/otp_varification.dart';
 import 'package:pedometer/pages/auth/password_changed_ui.dart';
 import 'package:pedometer/pages/auth/registration.dart';
+import 'package:pedometer/pages/home/main_screen.dart';
 import 'package:pedometer/pages/splash_screen.dart';
 
 class AppRoute {
@@ -27,7 +27,7 @@ class AppRouteConfig {
     GetPage(name: AppRoute.splash, page: () => SplashScreen(),),
     GetPage(name: AppRoute.registration, page: () => Registration(),),
     GetPage(name: AppRoute.login, page: () => Login(),),
-    GetPage(name: AppRoute.home, page: () => Home(),),
+    GetPage(name: AppRoute.home, page: () => MainScreen(),),
     GetPage(name: AppRoute.otpVarification, page: () => OtpVarification(),),
     GetPage(name: AppRoute.forgotPassword, page: () => ForgotPassword(),),
     GetPage(name: AppRoute.createNewPassword, page: () => CreateNewPassword(),),
