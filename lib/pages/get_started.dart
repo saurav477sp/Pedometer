@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pedometer/widgets/text/body_big.dart';
+import 'package:get/get.dart';
+import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/widgets/buttons/app_button.dart';
+import 'package:pedometer/widgets/logo.dart';
+import 'package:pedometer/widgets/text/heading_text_big.dart';
+import 'package:pedometer/widgets/textButton/custom_text_button.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -9,40 +14,97 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
-  late ColorScheme _colorScheme;
+  RxDouble textOpacity = 0.0.obs;
+  RxDouble buttonOpacity = 0.0.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    delay();
+  }
+
+  void delay() async {
+    await Future.delayed(
+      const Duration(microseconds: 1500),
+      () => textOpacity.value = 1.0,
+    );
+    await Future.delayed(
+      const Duration(milliseconds: 1500),
+      () => buttonOpacity.value = 1.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    _colorScheme = Theme.of(context).colorScheme;
+    var theme = Theme.of(context);
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: _colorScheme.surface,
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.only(
+          bottom: 30,
+          right: size.width * 0.05,
+          left: size.width * 0.05,
+        ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          spacing: 35,
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 50),
-              child:
-                  Image.asset('assets/images/Active elderly people-bro 1.png'),
-            ),
-            Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 100),
-                  child: const BodyBig(text: 'work out get')
+            const Logo(),
+            Obx(
+              () => AnimatedOpacity(
+                duration: Duration(seconds: 1),
+                curve: Curves.easeIn,
+                opacity: textOpacity.value,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    HeadingTextBig(text: 'Start your', fontSize: 33),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        HeadingTextBig(
+                          text: 'fitness',
+                          fontSize: 33,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        HeadingTextBig(text: 'Journy', fontSize: 33),
+                      ],
+                    ),
+                  ],
                 ),
-                RichText(
-                    text: TextSpan(
-                        // style: TextStyle(
-                        //     color: _colorScheme.secondary,
-                        //     fontSize: 35,
-                        //     fontWeight: FontWeight.w600),
-                        children: <TextSpan>[
-                      const TextSpan(text: 'better as'),
-                      TextSpan(
-                          text: ' you do',
-                          style: TextStyle(color: _colorScheme.onPrimary)),
-                    ])),
-              ],
+              ),
+            ),
+            Obx(
+              () => AnimatedOpacity(
+                opacity: buttonOpacity.value,
+                duration: Duration(seconds: 1),
+                curve: Curves.easeIn,
+                child: Column(
+                  children: [
+                    AppButton(
+                      btnText: 'Login',
+                      fillColor: theme.colorScheme.tertiary,
+                      textColor: theme.colorScheme.onTertiary,
+                      onClick: () => Get.toNamed(AppRoute.login),
+                    ),
+                    SizedBox(height: 10),
+                    AppButton(
+                      onClick: () => Get.toNamed(AppRoute.registration),
+                      btnText: 'Register',
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, top: 40),
+                      child: CustomTextButton(
+                        text: 'Continue as guest',
+                        textDecoration: TextDecoration.underline,
+                        textDecorationColor: theme.colorScheme.onPrimary,
+                        onPressed: () => Get.offAllNamed(AppRoute.home),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -50,4 +112,3 @@ class _GetStartedState extends State<GetStarted> {
     );
   }
 }
-
