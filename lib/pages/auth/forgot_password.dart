@@ -24,9 +24,9 @@ class ForgotPassword extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.08,
+          size.width * 0.05,
           80,
-          size.width * 0.08,
+          size.width * 0.05,
           30,
         ),
         child: Column(
@@ -34,10 +34,10 @@ class ForgotPassword extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 25,
           children: [
-            BackIcon(),
-            SizedBox(height: 10),
-            HeadingTextSmall(text: 'forgot Password?'),
-            BodyTextSmall(
+            const BackIcon(),
+            const SizedBox(height: 10),
+            const HeadingTextSmall(text: 'forgot Password?'),
+            const BodyTextSmall(
               text:
                   'Don\'t worry! It occures. Please enter the email address linked with your account.',
               fontWeight: FontWeight.w300,

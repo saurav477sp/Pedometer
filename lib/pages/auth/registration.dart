@@ -25,22 +25,22 @@ class Registration extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.08,
+          size.width * 0.05,
           80,
-          size.width * 0.08,
-          10,
+          size.width * 0.05,
+          30,
         ),
         child: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BackIcon(),
-              SizedBox(height: 50),
-              Logo(radius: 30),
-              SizedBox(height: 20),
-              BodyTextBig(text: 'Hello! Register to get started', fontSize: 27),
-              SizedBox(height: 30),
+              const BackIcon(),
+              const SizedBox(height: 50),
+              const Logo(radius: 30),
+              const SizedBox(height: 20),
+              const BodyTextBig(text: 'Hello! Register to get started', fontSize: 27),
+              const SizedBox(height: 30),
               Form(
                 key: registrationController.registrationKey,
                 child: Column(
@@ -126,26 +126,24 @@ class Registration extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 70),
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CustomTextButton(
-                      text: 'Already have an account? ',
-                      onPressed: () => Get.offNamed(AppRoute.login),
-                      fontWeight: FontWeight.w500,
-                    ),
-                    CustomTextButton(
-                      text: 'Login Now',
-                      fontColor: theme.colorScheme.secondary,
-                      fontSize: 14,
-                      onPressed: () => Get.offNamed(AppRoute.login),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 70,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 2,
+                children: [
+                  CustomTextButton(
+                    text: 'Already have an account? ',
+                    onPressed: () => Get.offNamed(AppRoute.login),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  CustomTextButton(
+                    text: 'Login Now',
+                    fontColor: theme.colorScheme.secondary,
+                    fontSize: 14,
+                    onPressed: () => Get.offNamed(AppRoute.login),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
               ),
             ],
           ),

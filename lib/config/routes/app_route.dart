@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pedometer/pages/auth/create_new_password.dart';
 import 'package:pedometer/pages/auth/forgot_password.dart';
-import 'package:pedometer/pages/get_started.dart';
+import 'package:pedometer/pages/get%20started/get_started.dart';
 import 'package:pedometer/pages/auth/login.dart';
 import 'package:pedometer/pages/auth/otp_varification.dart';
 import 'package:pedometer/pages/auth/password_changed_ui.dart';

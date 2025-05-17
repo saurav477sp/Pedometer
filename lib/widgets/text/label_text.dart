@@ -10,6 +10,7 @@ class LabelText extends StatelessWidget {
   final AppFontFamily fontFamily;
   final TextDecoration? textDecoration;
   final TextOverflow? textOverflow;
+  final bool softWrap;
   const LabelText({
     super.key,
     required this.text,
@@ -20,6 +21,7 @@ class LabelText extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.fontSize = 18,
     this.fontWeight,
+    this.softWrap = true,
   });
 
   @override
@@ -36,7 +38,7 @@ class LabelText extends StatelessWidget {
         decoration: textDecoration,
         overflow: textOverflow,
       ),
-      softWrap: true,
+      softWrap: softWrap,
     );
   }
 }

@@ -12,7 +12,6 @@ class Logo extends StatelessWidget {
         width: radius * 2,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          // image: DecorationImage(image: AssetImage('assets/images/logo.png'),fit: BoxFit.cover),
           border: Border.all(color: Get.theme.colorScheme.secondary, width: 2.0),
         ),
         child: CircleAvatar(
@@ -22,7 +21,6 @@ class Logo extends StatelessWidget {
             'assets/images/logo.png',
             height: radius*0.8,
             width: radius*0.8,
-            // fit: BoxFit.cover,
           ),
         )
         );

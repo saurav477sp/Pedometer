@@ -12,7 +12,7 @@ class BottomNavBar extends StatelessWidget {
     return Obx(
       () => BottomBar(
         onSelect: (selectedId) => mainScreenController.setIndex(selectedId),
-        options: mainScreenController.bottomOptions,
+        options: mainScreenController.bottomOptions.value,
         selectedId: mainScreenController.navIndex.value,
       ),
     );

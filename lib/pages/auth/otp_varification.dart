@@ -34,24 +34,24 @@ class _OtpVarificationState extends State<OtpVarification> {
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.08,
+          size.width * 0.05,
           80,
-          size.width * 0.08,
-          20,
+          size.width * 0.05,
+          30,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 45,
           children: [
-            BackIcon(),
+            const BackIcon(),
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 15,
                 children: [
-                  HeadingTextSmall(text: 'OTP Varification'),
-                  BodyTextSmall(
+                  const HeadingTextSmall(text: 'OTP Varification'),
+                  const BodyTextSmall(
                     text:
                         'Enter the varification code we just sent to your email address.',
                     fontWeight: FontWeight.w300,

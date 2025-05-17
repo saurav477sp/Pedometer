@@ -28,33 +28,21 @@ class _PasswordChangedUiState extends State<PasswordChangedUi> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomCheckUi(),
-              SizedBox(height: 20),
-              HeadingTextBig(text: 'Password Changed!'),
-              SizedBox(height: 5),
-              BodyTextSmall(
-                text: 'Your password has been changed',
-                fontWeight: FontWeight.w300,
-                textAlign: TextAlign.left,
-                fontSize: 16,
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: BodyTextSmall(
-                  text: 'successfully',
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
-          ),
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomCheckUi(),
+            SizedBox(height: 20),
+            HeadingTextBig(text: 'Password Changed!', fontSize: 25),
+            SizedBox(height: 5),
+            BodyTextSmall(
+              text: 'Your password has been changed \n successfully',
+              fontWeight: FontWeight.w300,
+              fontSize: 16,
+            ),
+          ],
         ),
       ),
     );

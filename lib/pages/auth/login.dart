@@ -19,16 +19,16 @@ class Login extends StatelessWidget {
       LoginController(),
       permanent: false,
     );
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.08,
+          size.width * 0.05,
           80,
-          size.width * 0.08,
-          10,
+          size.width * 0.05,
+          30,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class Login extends StatelessWidget {
                       children: [
                         const Logo(radius: 30),
                         const SizedBox(height: 20),
-                        HeadingTextSmall(
+                        const HeadingTextSmall(
                           text: 'welcome back! Glad to see you, Again!',
                           textAlign: TextAlign.left,
                         ),
@@ -120,7 +120,6 @@ class Login extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),

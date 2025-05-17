@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/config/routes/app_route.dart';
+import 'package:pedometer/pages/get%20started/get_started_controller.dart';
 import 'package:pedometer/widgets/buttons/app_button.dart';
 import 'package:pedometer/widgets/logo.dart';
 import 'package:pedometer/widgets/text/heading_text_big.dart';
@@ -14,30 +15,19 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
-  RxDouble textOpacity = 0.0.obs;
-  RxDouble buttonOpacity = 0.0.obs;
+  late GetStartedController getStartedController;
 
   @override
   void initState() {
     super.initState();
-    delay();
-  }
-
-  void delay() async {
-    await Future.delayed(
-      const Duration(microseconds: 1500),
-      () => textOpacity.value = 1.0,
-    );
-    await Future.delayed(
-      const Duration(milliseconds: 1500),
-      () => buttonOpacity.value = 1.0,
-    );
+    getStartedController = Get.put(GetStartedController());
+    getStartedController.delay();
   }
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -52,13 +42,13 @@ class _GetStartedState extends State<GetStarted> {
             const Logo(),
             Obx(
               () => AnimatedOpacity(
-                duration: Duration(seconds: 1),
+                duration: const Duration(seconds: 1),
                 curve: Curves.easeIn,
-                opacity: textOpacity.value,
+                opacity: getStartedController.textOpacity.value,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    HeadingTextBig(text: 'Start your', fontSize: 33),
+                    const HeadingTextBig(text: 'Start your', fontSize: 33),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,
@@ -68,7 +58,7 @@ class _GetStartedState extends State<GetStarted> {
                           fontSize: 33,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
-                        HeadingTextBig(text: 'Journy', fontSize: 33),
+                        const HeadingTextBig(text: 'Journy', fontSize: 33),
                       ],
                     ),
                   ],
@@ -77,8 +67,8 @@ class _GetStartedState extends State<GetStarted> {
             ),
             Obx(
               () => AnimatedOpacity(
-                opacity: buttonOpacity.value,
-                duration: Duration(seconds: 1),
+                opacity: getStartedController.buttonOpacity.value,
+                duration: const Duration(seconds: 1),
                 curve: Curves.easeIn,
                 child: Column(
                   children: [
@@ -88,19 +78,17 @@ class _GetStartedState extends State<GetStarted> {
                       textColor: theme.colorScheme.onTertiary,
                       onClick: () => Get.toNamed(AppRoute.login),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     AppButton(
                       onClick: () => Get.toNamed(AppRoute.registration),
                       btnText: 'Register',
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 10, top: 40),
-                      child: CustomTextButton(
-                        text: 'Continue as guest',
-                        textDecoration: TextDecoration.underline,
-                        textDecorationColor: theme.colorScheme.onPrimary,
-                        onPressed: () => Get.offAllNamed(AppRoute.home),
-                      ),
+                    const SizedBox(height: 40,),
+                    CustomTextButton(
+                      text: 'Continue as guest',
+                      textDecoration: TextDecoration.underline,
+                      textDecorationColor: theme.colorScheme.onPrimary,
+                      onPressed: () => Get.toNamed(AppRoute.home),
                     ),
                   ],
                 ),

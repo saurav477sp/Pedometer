@@ -31,26 +31,26 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.08,
+          size.width * 0.05,
           80,
-          size.width * 0.08,
+          size.width * 0.05,
           0,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BackIcon(),
-            SizedBox(height: 30),
-            HeadingTextSmall(text: 'Create new Password'),
-            SizedBox(height: 15),
-            BodyTextSmall(
+            const BackIcon(),
+            const SizedBox(height: 30),
+            const HeadingTextSmall(text: 'Create new Password'),
+            const SizedBox(height: 15),
+            const BodyTextSmall(
               text:
                   'Yout new password must be unique from the previously used.',
               fontWeight: FontWeight.w300,
               textAlign: TextAlign.left,
               fontSize: 16,
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Form(
               key: newPasswordController.newPassKey,
               child: Column(
@@ -74,7 +74,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       validator: passwordValidator.call,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Obx(
                     () => AppInput(
                       textEditingController:
@@ -107,7 +107,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             AppButton(
               btnText: 'Change Password',
               loadingText: 'Password Changing...',

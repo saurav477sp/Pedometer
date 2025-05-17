@@ -9,8 +9,8 @@ class AuthController extends GetxController {
   var isLogin = false.obs;
 
   checkAuth({VoidCallback? cb}) async {
-    var uid = await LocalStorageHelper.getItem('uid');
-    log(uid.toString());
+    final String? uid = await LocalStorageHelper.getItem('uid');
+    log(' UID ======> ${uid.toString()}');
     if (uid != null && uid.isNotEmpty) {
       if (cb != null) {
         cb();

@@ -3,7 +3,7 @@ import 'package:pedometer/widgets/custom_svg.dart';
 
 class CustomCheckUi extends StatelessWidget {
   final double size;
-  const CustomCheckUi({super.key, this.size = 100});
+  const CustomCheckUi({super.key, this.size = 80});
 
   @override
   Widget build(BuildContext context) {

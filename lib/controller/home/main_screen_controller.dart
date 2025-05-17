@@ -17,10 +17,6 @@ class MainScreenController extends GetxController {
     if (index == navIndex.value) return;
 
     navIndex.value = index;
-    pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    pageController.jumpToPage(index);
   }
 }

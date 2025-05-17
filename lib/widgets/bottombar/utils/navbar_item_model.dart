@@ -22,7 +22,7 @@ class NavbarItemModel {
     this.label = '',
     this.isLabelVisible = false,
     this.isDesable = true,
-    this.id = 0,
+    required this.id,
     this.allowAppBar = false,
     this.getWidget,
   });

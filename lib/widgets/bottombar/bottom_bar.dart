@@ -19,7 +19,6 @@ class BottomBar extends StatelessWidget {
     final theme = Theme.of(context);
     final items = getSortedOptions();
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: theme.colorScheme.tertiary,

@@ -1,4 +1,4 @@
-import 'package:pedometer/pages/home/main_screen.dart';
+import 'package:pedometer/pages/first_page.dart';
 import 'package:pedometer/pages/schedule/schedule.dart';
 import 'package:pedometer/pages/settings/settings.dart';
 import 'package:pedometer/pages/statictics/statictics.dart';
@@ -9,37 +9,37 @@ class Config {
     NavbarItemModel(
       id: 0,
       iconPath: 'assets/icons/home.svg',
-      selectedIconPath: 'assets/icons/Help.svg',
+      selectedIconPath: 'assets/icons/home.svg',
       label: 'Home',
       isSelected: true,
-      isLabelVisible: true,
-      getWidget: () => MainScreen(),
+      isLabelVisible: false,
+      getWidget: () => FirstPage(),
     ),
     NavbarItemModel(
       id: 1,
       iconPath: 'assets/icons/calendar.svg',
-      selectedIconPath: 'assets/icons/Calender.svg',
+      selectedIconPath: 'assets/icons/calendar.svg',
       label: 'Calender',
       isSelected: true,
-      isLabelVisible: true,
+      isLabelVisible: false,
       getWidget: () => Schedule(),
     ),
     NavbarItemModel(
       id: 2,
       iconPath: 'assets/icons/Star.svg',
-      selectedIconPath: 'assets/icons/Stored.svg',
-      label: 'Home',
+      selectedIconPath: 'assets/icons/Star.svg',
+      label: 'Statictics',
       isSelected: true,
-      isLabelVisible: true,
+      isLabelVisible: false,
       getWidget: () => Statictics(),
     ),
     NavbarItemModel(
       id: 3,
       iconPath: 'assets/icons/Woman.svg',
-      selectedIconPath: 'assets/icons/Wishlist.svg',
-      label: 'Home',
+      selectedIconPath: 'assets/icons/Woman.svg',
+      label: 'Settings',
       isSelected: true,
-      isLabelVisible: true,
+      isLabelVisible: false,
       getWidget: () => Settings(),
     ),
   ];
