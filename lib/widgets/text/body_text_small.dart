@@ -21,7 +21,7 @@ class BodyTextSmall extends StatelessWidget {
     this.fontStyle,
     this.textOverflow,
     this.textDecoration,
-    this.textAlign = TextAlign.center,
+    this.textAlign = TextAlign.start,
     this.fontSize = 18,
     this.fontWeight = FontWeight.normal,
   });

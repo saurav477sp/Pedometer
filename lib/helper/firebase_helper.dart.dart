@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:pedometer/config/models/user_model.dart';
 import 'package:pedometer/config/routes/app_route.dart';
 import 'package:pedometer/helper/firebase_database_helper.dart';
 import 'package:pedometer/helper/local_storage_helper.dart';
@@ -22,17 +23,20 @@ class FirebaseHelper {
       );
 
       log(userCredential.toString());
+      final user = userCredential.user;
 
-      if (userCredential.user != null) {
-        String emailID = email.replaceAll('.', ',');
-        log(emailID);
-        await userCredential.user!.updateDisplayName(userName);
-        bool isStored = await FirebaseDatabaseHelper().storeUserData(
-          email: emailID,
-          data: {'userName': userName},
+      if (user != null) {
+        String emailKey = email.replaceAll('.', ',');
+        log(emailKey);
+        await user.updateDisplayName(userName);
+
+        final UserModel userModel = UserModel(email: email, userName: userName);
+
+        final bool isStored = await FirebaseDatabaseHelper().storeUserData(
+          user: userModel,
         );
 
-        if (isStored) return userCredential.user;
+        if (isStored) return user;
       }
     } on FirebaseException catch (e) {
       log('firebase create user firebase exception =======>  ${e.toString()}');
@@ -53,9 +57,7 @@ class FirebaseHelper {
 
       log(userCredential.toString());
 
-      if (userCredential.user != null) {
-        return userCredential.user;
-      }
+      return userCredential.user;
     } on FirebaseException catch (e) {
       log('firebase sign in firebase exception =======>  ${e.toString()}');
       showSnackbar(getFriendlyAuthMessage(e.code));
@@ -66,27 +68,6 @@ class FirebaseHelper {
     return null;
   }
 
-  // Future<bool> isEmailRegistered(String email) async {
-  //   try {
-  //     log(email);
-  //     // this method works only when email enauration is desabled in cosole but it is not recomended
-  //     var signInMethods = await FirebaseAuth.instance
-  //         .fetchSignInMethodsForEmail(email.trim());
-  //     log(signInMethods.toString());
-  //     return signInMethods.isNotEmpty;
-  //   } on FirebaseException catch (e) {
-  //     log(
-  //       'firebase exception for check mail exist or not =====>  ${e.message.toString()}',
-  //     );
-  //     showSnackbar(e.message.toString());
-  //     return false;
-  //   } on Exception catch (e) {
-  //     log('exception while checking email id ======> $e');
-  //     showSnackbar('please try again');
-  //     return false;
-  //   }
-  // }
-
   Future<void> signout() async {
     try {
       await auth.signOut();
@@ -94,7 +75,8 @@ class FirebaseHelper {
       showSnackbar('user sign out');
       Get.offAllNamed(AppRoute.getStarted);
     } on Exception catch (e) {
-      showSnackbar(e.toString());
+      log('sign out fail =========> $e');
+      showSnackbar('sign out failed');
     }
   }
 

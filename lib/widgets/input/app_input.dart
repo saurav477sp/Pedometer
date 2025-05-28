@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pedometer/widgets/text/sub_heading_text.dart';
+import 'package:pedometer/widgets/text/body_text_small.dart';
 import 'package:pedometer/widgets/text/text_style.dart';
 
 enum AppInputBorderType { none, underline, all }
@@ -156,8 +156,11 @@ class AppInput extends StatelessWidget {
           fillColor: fillColor ?? theme.colorScheme.tertiary,
           error:
               errorText != null
-                  ? SubHeadingText(
+                  ? BodyTextSmall(
                     text: errorText!,
+                    fontWeight: FontWeight.w500,
+                    textAlign: TextAlign.center,
+                    fontSize: 16,
                     color: errorColorCode ?? theme.colorScheme.error,
                   )
                   : null,

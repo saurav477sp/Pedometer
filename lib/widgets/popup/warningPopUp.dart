@@ -44,7 +44,7 @@ class Warningpopup extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: borderRaius ?? BorderRadius.circular(15),
         side: BorderSide(
-          color: borderColor ?? theme.colorScheme.surface,
+          color: borderColor ?? theme.colorScheme.onPrimary,
           width: borderWidth ?? 2,
         ),
       ),
@@ -77,6 +77,7 @@ class Warningpopup extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: BodyTextSmall(
                     text: description!,
+                    textAlign: TextAlign.center,
                     color: theme.colorScheme.onPrimaryContainer,
                   ),
                 )

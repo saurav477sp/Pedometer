@@ -32,6 +32,7 @@ class SubmitButton extends StatelessWidget {
         child: BodyTextSmall(
           text: text,
           fontSize: 17,
+          textAlign: TextAlign.center,
           color: fontColor ?? theme.colorScheme.onPrimaryContainer,
           fontWeight: FontWeight.w500,
         ),

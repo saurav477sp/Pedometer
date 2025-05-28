@@ -47,7 +47,6 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
               text:
                   'Yout new password must be unique from the previously used.',
               fontWeight: FontWeight.w300,
-              textAlign: TextAlign.left,
               fontSize: 16,
             ),
             const SizedBox(height: 15),

@@ -38,6 +38,7 @@ class CustomTextButton extends StatelessWidget {
         fontSize: fontSize,
         fontStyle: fontStyle,
         fontWeight: fontWeight,
+        textAlign: TextAlign.center,
         textDecoration: textDecoration,
         decorationColor: textDecorationColor,
       ),

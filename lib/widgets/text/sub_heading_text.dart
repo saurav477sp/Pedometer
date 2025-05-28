@@ -19,7 +19,7 @@ class SubHeadingText extends StatelessWidget {
     this.fontFamily = AppFontFamily.primary,
     this.textAlign = TextAlign.center,
     this.fontSize = 16,
-    this.fontWeight = FontWeight.w500,
+    this.fontWeight = FontWeight.w400,
   });
 
   @override

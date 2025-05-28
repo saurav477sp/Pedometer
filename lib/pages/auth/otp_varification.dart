@@ -55,7 +55,6 @@ class _OtpVarificationState extends State<OtpVarification> {
                     text:
                         'Enter the varification code we just sent to your email address.',
                     fontWeight: FontWeight.w300,
-                    textAlign: TextAlign.left,
                     fontSize: 16,
                   ),
                   Row(

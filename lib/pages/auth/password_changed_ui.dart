@@ -40,6 +40,7 @@ class _PasswordChangedUiState extends State<PasswordChangedUi> {
             BodyTextSmall(
               text: 'Your password has been changed \n successfully',
               fontWeight: FontWeight.w300,
+              textAlign: TextAlign.center,
               fontSize: 16,
             ),
           ],

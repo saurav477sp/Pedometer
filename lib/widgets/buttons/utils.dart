@@ -4,7 +4,7 @@ import 'package:pedometer/widgets/buttons/button_varients.dart';
 Color getButtonBackgroundcolor(ThemeData theme, ButtonColorVarients varient) {
   switch (varient) {
     case ButtonColorVarients.primary:
-      return theme.colorScheme.surface;
+      return theme.colorScheme.onPrimary;
     case ButtonColorVarients.secondary:
       return theme.colorScheme.tertiary;
     default:
@@ -15,10 +15,10 @@ Color getButtonBackgroundcolor(ThemeData theme, ButtonColorVarients varient) {
 Color getButtonForGroundColor(ThemeData theme, ButtonColorVarients varient) {
   switch (varient) {
     case ButtonColorVarients.primary:
-      return theme.colorScheme.onSurface;
+      return theme.colorScheme.onPrimaryContainer;
     case ButtonColorVarients.secondary:
       return theme.colorScheme.onTertiary;
     default:
-      return theme.colorScheme.onSurface;
+      return theme.colorScheme.onPrimaryContainer;
   }
 }

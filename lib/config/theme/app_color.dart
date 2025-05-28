@@ -71,11 +71,11 @@ var lightThemeColors = AppColor(
   secondary: const Color(0xFFF5F2B8),
   onSecondary: const Color(0xFF56705e),
   surface: const Color(0xFFFFFFFF),
-  onSurface: const Color(0xFF000000),
+  onSurface: const Color(0xFF56705e),
   primaryContainer: const Color(0xFFE8E8E8),
   onPrimaryContainer: const Color(0xFF000000),
   error: const Color(0xFFad0d0d),
-  disabled: const Color.fromARGB(255, 189, 189, 189),
+  disabled: const Color(0xFF908E98),
   success: const Color(0xFF138808),
   warning: const Color(0xFFFFC107),
   tertiary: const Color(0xFF56705e),
@@ -100,3 +100,11 @@ var lightThemeColors = AppColor(
 //   tertiary: const Color(0xFF56705e),
 //   onTertiary: const Color(0xFFFFFFFF),
 // );
+
+
+
+
+class colrs {
+  static const Color pink = Color(0xFFFFC9E9);
+  static const Color grey = Color(0xFFD7D7D7);
+}

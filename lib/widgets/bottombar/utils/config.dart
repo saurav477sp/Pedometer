@@ -13,7 +13,7 @@ class Config {
       label: 'Home',
       isSelected: true,
       isLabelVisible: false,
-      getWidget: () => FirstPage(),
+      getWidget: () => Statictics(),
     ),
     NavbarItemModel(
       id: 1,

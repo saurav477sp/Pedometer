@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:pedometer/config/models/user_model.dart';
 import 'package:pedometer/config/routes/app_route.dart';
 import 'package:pedometer/helper/firebase_database_helper.dart';
 import 'package:pedometer/services/messenging/otp_mail.dart';
@@ -22,7 +23,7 @@ class ForgotPasswordController extends GetxController {
       // so i set email as an key of all userdata and fetch it and then check and then work
       // console does not except . , $ , # , [ , ] so choose it carfully
 
-      Map<String, dynamic>? data = await FirebaseDatabaseHelper().findEmail(
+      UserModel? data = await FirebaseDatabaseHelper().findEmail(
         emailController.text,
       );
       log('data of user =======> $data');

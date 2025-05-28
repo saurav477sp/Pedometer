@@ -41,7 +41,6 @@ class ForgotPassword extends StatelessWidget {
               text:
                   'Don\'t worry! It occures. Please enter the email address linked with your account.',
               fontWeight: FontWeight.w300,
-              textAlign: TextAlign.left,
               fontSize: 16,
             ),
             Expanded(

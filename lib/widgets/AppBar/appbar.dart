@@ -20,7 +20,7 @@
 //       actionsPadding: EdgeInsets.all(0),
 //       bottom: PreferredSize(
 //         preferredSize: preferredSize,
-//         child: Container(color: theme.colorScheme.surface, height: 0.5),
+//         child: Container(color: theme.colorScheme.onPrimary, height: 0.5),
 //       ),
 //       actions: actions ?? [],
 
