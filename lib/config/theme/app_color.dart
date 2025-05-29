@@ -107,4 +107,6 @@ var lightThemeColors = AppColor(
 class colrs {
   static const Color pink = Color(0xFFFFC9E9);
   static const Color grey = Color(0xFFD7D7D7);
+  static const Color greyWhight = Color(0xFFE8E8E8);
+  static const Color onGreyWhight = Color(0xFFD2D2D2);
 }

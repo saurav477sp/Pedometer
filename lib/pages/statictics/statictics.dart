@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pedometer/config/theme/app_color.dart';
 import 'package:pedometer/pages/statictics/components/app_tab_bar.dart';
-import 'package:pedometer/pages/statictics/components/statictics_chart.dart';
+import 'package:pedometer/pages/statictics/components/calories_chart.dart';
+import 'package:pedometer/pages/statictics/components/statictics_card.dart';
 import 'package:pedometer/pages/statictics/controller/statictics_controller.dart';
 import 'package:pedometer/widgets/icons/icon_or_svg.dart';
 import 'package:pedometer/widgets/text/body_text_big.dart';
@@ -19,10 +20,12 @@ class Statictics extends StatefulWidget {
 
 class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
   StaticticsController staticticsController = Get.put(StaticticsController());
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: AnnotatedRegion(
@@ -32,7 +35,7 @@ class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
           statusBarColor: Colors.transparent,
         ),
         child: Padding(
-          padding: EdgeInsets.only(top: 75),
+          padding: const EdgeInsets.only(top: 75),
           child: Column(
             children: [
               Padding(
@@ -55,43 +58,47 @@ class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Row(
-                      spacing: 5,
-                      children: [
-                        Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            BodyTextSmall(
-                              text: 'Weekly Average',
-                              color: theme.colorScheme.onSurface,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            BodyTextBig(
-                              text: '102 CAL',
-                              color: theme.colorScheme.onSurface,
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: colrs.pink,
-                            borderRadius: BorderRadius.circular(1000),
+                    // In your Statictics widget, replace the Obx block with:
+                    Obx(
+                      () => Row(
+                        children: [
+                          Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              BodyTextSmall(
+                                text:
+                                    staticticsController
+                                        .getCurrentPeriodLabel(),
+                                color: theme.colorScheme.onSurface,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              BodyTextBig(
+                                text:
+                                    '${staticticsController.getAverageCalories()} CAL',
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ],
                           ),
-                          child: IconOrSvg(
-                            iconPath: 'assets/images/arrow_outword.svg',
-                            iconColor: theme.colorScheme.onPrimaryContainer,
+                          const SizedBox(width: 5),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: colrs.pink,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: IconOrSvg(
+                              iconPath: 'assets/images/arrow_outword.svg',
+                              iconColor: theme.colorScheme.onPrimaryContainer,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-
-              // this below is for view od tabs
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
                 child: Obx(
@@ -104,18 +111,17 @@ class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: Container(
-                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.background,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(50),
                       topRight: Radius.circular(50),
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
@@ -128,24 +134,30 @@ class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      CaloriesChart()
-                      // Stack(
-                      //   children: [
-                      //     Container(
-                      //       width: double.infinity,
-                      //       height: 250,
-                      //       decoration: BoxDecoration(
-                      //         color: theme.colorScheme.secondary,
-                      //         borderRadius: BorderRadius.circular(50),
-                      //       ),
-                      //       padding: EdgeInsets.symmetric(
-                      //         horizontal: 20,
-                      //         vertical: 10,
-                      //       ),
-                      //       child: StaticticsChart()
-                      //     ),
-                      //   ],
-                      // ),
+                      const CaloriesChart(),
+                      const SizedBox(height: 15),
+                      const Row(
+                        children: [
+                          Expanded(
+                            child: StaticticsCard(
+                              backgroundColor: Color(0xFFD3E8E8),
+                              iconPath: 'assets/images/run.svg',
+                              bodyText: '2 miles',
+                              title: 'Walk',
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: StaticticsCard(
+                              backgroundColor: Color(0xFFE8E8E8),
+                              iconPath: 'assets/images/moon.svg',
+                              bodyText: '150 ml',
+                              title: 'Drink',
+                              isBodyIconVisible: true,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

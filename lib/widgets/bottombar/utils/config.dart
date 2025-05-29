@@ -13,7 +13,7 @@ class Config {
       label: 'Home',
       isSelected: true,
       isLabelVisible: false,
-      getWidget: () => Statictics(),
+      getWidget: () => Schedule(),
     ),
     NavbarItemModel(
       id: 1,

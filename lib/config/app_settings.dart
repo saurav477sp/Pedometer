@@ -19,9 +19,7 @@ class _AppSettingsState extends State<AppSettings> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Pedometer',
-      // debugShowMaterialGrid: true,
       debugShowCheckedModeBanner: false,
-      showSemanticsDebugger: false,
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
       themeMode: ThemeMode.system,

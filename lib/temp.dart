@@ -1,153 +1,129 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:pedometer/config/theme/app_color.dart';
-import 'package:pedometer/pages/statictics/controller/statictics_controller.dart';
-import 'package:pedometer/widgets/icons/icon_or_svg.dart';
-import 'package:pedometer/widgets/text/body_text_big.dart';
-import 'package:pedometer/widgets/text/body_text_small.dart';
-import 'package:pedometer/widgets/text/heading_text_big.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:pedometer/pages/statictics/controller/statictics_controller.dart';
+// import 'package:pedometer/widgets/text/label_text.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 
-class Statictics extends StatefulWidget {
-  const Statictics({super.key});
+// class CaloriesChart extends StatefulWidget {
+//   @override
+//   _CaloriesChartState createState() => _CaloriesChartState();
+// }
 
-  @override
-  State<Statictics> createState() => _StaticticsState();
-}
+// class _CaloriesChartState extends State<CaloriesChart> {
+//   final List<SalesData> data = [
+//     SalesData('Mon', 20),
+//     SalesData('Tues', 35),
+//     SalesData('Wed', 50),
+//     SalesData('Thurs', 25),
+//     SalesData('Fri', 80),
+//     SalesData('Sat', 40),
+//     SalesData('Sun', 60),
+//   ];
 
-class _StaticticsState extends State<Statictics> with TickerProviderStateMixin {
-  StaticticsController staticticsController = Get.put(StaticticsController());
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final theme = Theme.of(context);
-    var wid = ((size.width - (2 * (size.width * 0.05)) - 8) / 3) - 5;
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      body: AnnotatedRegion(
-        value: SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.dark,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarColor: Colors.transparent,
-        ),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            size.width * 0.05,
-            75,
-            size.width * 0.05,
-            0,
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BodyTextSmall(
-                        text: staticticsController.date.value,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      HeadingTextBig(
-                        text: 'Your\nStatictics',
-                        textAlign: TextAlign.start,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          BodyTextSmall(
-                            text: 'Weekly Average',
-                            color: theme.colorScheme.onSurface,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          BodyTextBig(
-                            text: '102 CAL',
-                            color: theme.colorScheme.onSurface,
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: colrs.pink,
-                          borderRadius: BorderRadius.circular(1000),
-                        ),
-                        child: IconOrSvg(
-                          iconPath: 'assets/images/arrow_outword.svg',
-                          iconColor: theme.colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Container(
-                height: 85,
-                decoration: BoxDecoration(
-                  color: colrs.grey,
-                  borderRadius: BorderRadius.circular(45),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3),
-                child: TabBar(
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  controller: staticticsController.tabController,
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        width: wid,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        alignment: Alignment.center,
-                        // padding: EdgeInsets.all(10),
-                        child: BodyTextSmall(text: 'Day', fontSize: 15),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        width: wid,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        alignment: Alignment.center,
-                        // padding: EdgeInsets.all(10),
-                        child: BodyTextSmall(text: 'Week', fontSize: 15),
-                      ),
-                    ),
-                    Tab(
-                      child: Container(
-                        width: wid,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        alignment: Alignment.center,
-                        // padding: EdgeInsets.all(10),
-                        child: BodyTextSmall(text: 'Month', fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   StaticticsController staticticsController = Get.put(StaticticsController());
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: Color(0xFFF5F1B2), // light yellow
+//         borderRadius: BorderRadius.circular(30),
+//       ),
+//       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+//       child: Column(
+//         children: [
+//           SizedBox(height: 20),
+//           Stack(
+//             children: [
+//               Positioned(
+//                 left: 10,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     LabelText(
+//                       text: 'Calories',
+//                       fontSize: 18,
+//                       color: theme.colorScheme.onSecondary,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                     SizedBox(height: 4),
+//                     Obx(
+//                       () => LabelText(
+//                         text:
+//                             '${data[staticticsController.chartIndex.value].cal.toInt()} cal',
+//                         color: theme.colorScheme.onSecondary,
+//                         fontWeight: FontWeight.w500,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               Obx(
+//                 () => SfCartesianChart(
+//                   plotAreaBorderWidth: 0,
+//                   primaryXAxis: CategoryAxis(
+//                     majorGridLines: MajorGridLines(width: 0),
+//                     axisLine: AxisLine(width: 0),
+//                     labelStyle: TextStyle(fontWeight: FontWeight.w400),
+//                   ),
+//                   primaryYAxis: NumericAxis(isVisible: false),
+//                   onSelectionChanged: (args) {
+//                     staticticsController.chartIndex.value = args.pointIndex;
+//                   },
+//                   series: [
+//                     ColumnSeries<SalesData, String>(
+//                       dataSource: data,
+//                       xValueMapper: (datum, _) => datum.day,
+//                       yValueMapper: (datum, _) => datum.cal,
+//                       borderRadius: BorderRadius.circular(10),
+//                       pointColorMapper: (datum, index) {
+//                         if (staticticsController.chartIndex.value == index)
+//                           return theme.colorScheme.primary;
+//                         return Colors.grey[300];
+//                       },
+//                       selectionBehavior: SelectionBehavior(enable: true),
+//                       width: 0.2,
+//                     ),
+//                   ],
+//                 ),
+//               ),
+
+//               // Positioned(
+//               //   bottom: 60 + data[selectedIndex!].cal, // dynamic positioning
+//               //   left: MediaQuery.of(context).size.width / 10 * selectedIndex!,
+//               //   child: Column(
+//               //     children: [
+//               //       Container(height: 10, width: 2, color: Colors.white),
+//               //       Container(
+//               //         height: 30,
+//               //         width: 20,
+//               //         decoration: BoxDecoration(
+//               //           color: Colors.black,
+//               //           shape: BoxShape.rectangle,
+//               //           borderRadius: BorderRadius.circular(100),
+//               //           boxShadow: [
+//               //             BoxShadow(
+//               //               color: Colors.black.withOpacity(0.2),
+//               //               blurRadius: 10,
+//               //               spreadRadius: 2,
+//               //             ),
+//               //           ],
+//               //         ),
+//               //       ),
+//               //     ],
+//               //   ),
+//               // ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class SalesData {
+//   final String day;
+//   final double cal;
+//   SalesData(this.day, this.cal);
+// }

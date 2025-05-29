@@ -11,7 +11,7 @@ class AppTabBar extends StatelessWidget {
   final Function(int selectedIndex) onTap;
   const AppTabBar({
     super.key,
-    this.height = 70,
+    this.height = 65,
     required this.selectedIndex,
     required this.items,
     required this.onTap,
@@ -30,7 +30,7 @@ class AppTabBar extends StatelessWidget {
         color: colrs.grey,
         borderRadius: BorderRadius.circular(100),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children:
