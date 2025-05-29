@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pedometer/config/theme/custom_colors.dart';
+import 'package:get/get.dart';
 
 class Logo extends StatelessWidget {
   final double radius;
@@ -12,8 +12,7 @@ class Logo extends StatelessWidget {
         width: radius * 2,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          // image: DecorationImage(image: AssetImage('assets/images/logo.png'),fit: BoxFit.cover),
-          border: Border.all(color: CustomColors.yellowColor, width: 2.0),
+          border: Border.all(color: Get.theme.colorScheme.secondary, width: 2.0),
         ),
         child: CircleAvatar(
           radius: radius,
@@ -22,7 +21,6 @@ class Logo extends StatelessWidget {
             'assets/images/logo.png',
             height: radius*0.8,
             width: radius*0.8,
-            // fit: BoxFit.cover,
           ),
         )
         );
